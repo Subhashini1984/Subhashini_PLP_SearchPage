@@ -1,42 +1,38 @@
-import '../support/commands';
+/// <reference types="cypress" />
 
-describe('Lounge the URL',() => {
-    beforeEach(() => {
-        // Launch the application URL
-        cy.visit('https://www.supplyhouse.com/');
-        cy.logger('application',"Launched Application--> Search Test");
+describe('search for a product', () => {   
+ 
+     it('search for a product', ()=> 
+   {
+      cy.visit('https://www.supplyhouse.com/', {failOnStatusCode: false})
+      //cy.contains('Continue').click()
+      //cy.get('button').check()
+      //cy.url().should('include', '/next-page')
+      
+      cy.wait(4000);
+      Cypress.on('uncaught:exception', (err) => {
+        // returning false here prevents Cypress from
+        // failing the test
+        console.log('Cypress detected uncaught exception: ', err);
+        return false;
       });
+            
+      cy.get('#react-header-search-input').type('taco')
+      cy.wait(4000); 
+      cy.xpath("//div[@class='Box-sc-1z9git-0 jvLuNd']/div//span").then( items => {
+      //expect(items[1]).to.have.css('font-weight','400')
+     
+      expect(items[1]).to.have.css('font-weight','normal')
+      expect(items[1]).to.have.css('-webkit-text-fill-color','rgb(52, 52, 52)')
+      
+    })
+  
+    cy.xpath("//div[@class='Box-sc-1z9git-0 jvLuNd']/div").then( items => 
+    {
+    expect(items[1]).to.have.css('font-weight', 'bold')
+    expect(items[1]).to.have.css('-webkit-text-fill-color','rgb(0, 0, 0)')
 
-// Create an empty array to store the test data
-var testData = [];
-
-it
-('search input',()=>
-{
-//cy.get('[data-testid="header-search-input"]').type('taco');
-// Read the JSON file
-cy.fixture('TestData.json').then((data) => {
-  // Iterate over the JSON data and push each item to the array
-data.forEach((item) => {
-    testData.push(item);
-    });
+    })
+  })
 })
-// Use the array of test data in your test
-var Search;
-'Error handling'
-Cypress.on('uncaught:exception', (err, runnable) => {
-  return false
-})
-cy.get('input').type(test)
-}
-)
-});
-
-/*
-('search input',()=>{
-        cy.get('[data-testid="header-search-input"]').type('taco');     
-        
-        cy.get('.page-content col-xs-12').should('have.length', numExpectedResults);
-        
-      }) 
-*/
+    
